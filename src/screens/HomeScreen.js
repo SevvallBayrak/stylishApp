@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import ProductCard from '../components/ProductCard';
 
-// Örnek Kategori Verileri
 const categories = [
   { id: '1', name: 'Beauty', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=100' },
   { id: '2', name: 'Fashion', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=100' },
@@ -248,18 +247,20 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#4361EE',
+    backgroundColor: '#5a75ee',
     alignItems: 'center',
+    width: '80%',
     paddingHorizontal: 16,
     marginBottom: 12,
+    borderRadius: 5,
   },
   sectionHeaderLeft: { flex: 1 },
   sectionTitle: { fontSize: 16, fontWeight: '500', color: '#fff' },
   timerText: { fontSize: 11, color: '#ffffff', marginTop: 2 },
-  viewAllBtn: { backgroundColor: '#4361EE', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 6 },
+  viewAllBtn: { backgroundColor: '#5a75ee', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 6 },
   viewAllText: { color: '#fff', fontSize: 12, fontWeight: 'bold', borderWidth: 1,
     borderColor: '#fff',
-    padding: 6,               // Yazı çizgiye yapışmasın diye iç boşluk
+    padding: 6,
     borderRadius: 4,},
 });
 
