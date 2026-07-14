@@ -4,8 +4,10 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 const ProductCard = ({ image, title, description, price, originalPrice, discount, rating, reviewCount, cardWidth }) => {
   return (
     <View style={[styles.card, { width: cardWidth || '48%' }]}>
-      <Image source={{ uri: image }} style={styles.image} />
-      
+<Image 
+  source={typeof image === 'string' ? { uri: image } : image} 
+  style={styles.image} 
+/>      
       <TouchableOpacity style={styles.favoriteButton}>
         <Text style={{ color: '#ff4d4d' }}>❤</Text>
       </TouchableOpacity>
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     marginBottom: 16,
+    marginRight: 45,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   Text, 
@@ -6,21 +6,21 @@ import {
   TextInput, 
   Image, 
   ScrollView, 
-  FlatList, 
   SafeAreaView, 
-  TouchableOpacity 
+  TouchableOpacity,
+  ImageBackground 
 } from 'react-native';
 import ProductCard from '../components/ProductCard';
 
 const categories = [
-  { id: '1', name: 'Beauty', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=100' },
-  { id: '2', name: 'Fashion', image: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=100' },
-  { id: '3', name: 'Kids', image: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=100' },
-  { id: '4', name: 'Mens', image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100' },
-  { id: '5', name: 'Womens', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=100' },
+  { id: '1', name: 'Beauty', image: require('../../assets/Ellipse 4.png')},
+  { id: '2', name: 'Fashion', image: require('../../assets/unsplash__3Q3tsJ01nc.png')},
+  { id: '3', name: 'Kids', image: require('../../assets/unsplash_GCDjllzoKLo.png')},
+  { id: '4', name: 'Mens', image: require('../../assets/unsplash_xPJYL0l5Ii8.png')},
+  { id: '5', name: 'Womens', image: require('../../assets/unsplash_OYYE4g-I5ZQ.png') },
 ];
 
-// Örnek Ürün Verileri
+// Örnek Ürün Verileri (Deal of the Day)
 const productsData = [
   {
     id: '1',
@@ -31,7 +31,7 @@ const productsData = [
     discount: '40',
     rating: '4.3',
     reviewCount: '56,890',
-    image: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=300',
+    image: require ('../../assets/Mask Group.png'),
   },
   {
     id: '2',
@@ -42,112 +42,320 @@ const productsData = [
     discount: '50',
     rating: '4.6',
     reviewCount: '144,567',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300',
+    image: require('../../assets/Mask Group (1).png'),
+  },
+];
+
+// Yeni Trending Ürün Verileri
+const trendingProductsData = [
+  {
+    id: 't1',
+    title: "IWC Schaffhausen 2021 Pilot's Watch",
+    description: '"SIHH 2019" 44mm',
+    price: '650',
+    originalPrice: '1599',
+    discount: '60',
+    rating: '4.8',
+    reviewCount: '1,245',
+    image: require('../../assets/Mask Group.png'),
+  },
+  {
+    id: 't2',
+    title: 'Labbin White Sneakers',
+    description: 'For Men and Female',
+    price: '650',
+    originalPrice: '1250',
+    discount: '70',
+    rating: '4.5',
+    reviewCount: '3,892',
+    image: require('../../assets/Mask Group (1).png'),
   },
 ];
 
 const HomeScreen = () => {
-
-  const renderHeader = () => (
-    <View style={{ width: '100%' }}>
-      {/* 1. Üst Bar */}
-      <View style={styles.header}>
-        <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
-        <Text style={styles.logoText}>Stylish</Text>
-        <Image 
-          source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100' }} 
-          style={styles.profileImage} 
-        />
-      </View>
-
-      {/* 2. Arama Çubuğu */}
-      <View style={styles.searchContainer}>
-        <Text style={styles.searchIcon}>🔍</Text>
-        <TextInput 
-          placeholder="Search any Product..." 
-          style={styles.searchInput} 
-          placeholderTextColor="#999"
-        />
-        <TouchableOpacity><Text style={styles.micIcon}>🎙️</Text></TouchableOpacity>
-      </View>
-
-      {/* 3. Başlık ve Filtreleme */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.mainTitle}>All Featured</Text>
-        <View style={styles.filterButtons}>
-          <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>Sort ⇅</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.filterBtn}><Text style={styles.filterText}>Filter ⏳</Text></TouchableOpacity>
-        </View>
-      </View>
-
-      {/* 4. Yatay Kategoriler */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
-        {categories.map((cat) => (
-          <View key={cat.id} style={styles.categoryItem}>
-            <Image source={{ uri: cat.image }} style={styles.categoryImage} />
-            <Text style={styles.categoryName}>{cat.name}</Text>
-          </View>
-        ))}
-      </ScrollView>
-
-      {/* 5. Kampanya Banner Alanı */}
-      <View style={styles.bannerContainer}>
-        <View style={styles.bannerCard}>
-          <View style={styles.bannerTextContainer}>
-            <Text style={styles.bannerTitle}>50-40% OFF</Text>
-            <Text style={styles.bannerSubtitle}>Now in (product){'\n'}All colours</Text>
-            <TouchableOpacity style={styles.bannerButton}>
-              <Text style={styles.bannerButtonText}>Shop Now →</Text>
-            </TouchableOpacity>
-          </View>
-          <Image 
-            source={{ uri: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=400' }} 
-            style={styles.bannerImage} 
-          />
-        </View>
-        <View style={styles.dotsContainer}>
-          <View style={[styles.dot, styles.activeDot]} />
-          <View style={styles.dot} />
-          <View style={styles.dot} />
-        </View>
-      </View>
-
-      {/* 6. Deal of the Day Şeridi */}
-      <View style={styles.sectionHeader}>
-        <View style={styles.sectionHeaderLeft}>
-          <Text style={styles.sectionTitle}>Deal of the Day</Text>
-          <Text style={styles.timerText}>⏳ 22h 55m 20s remaining</Text>
-        </View>
-        <TouchableOpacity style={styles.viewAllBtn}><Text style={styles.viewAllText}>View all →</Text></TouchableOpacity>
-      </View>
-
-      {/* İÇTEKİ YATAY LİSTE: Kendi içinde sağa kaymaya devam edecek */}
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
-        {productsData.map((item) => (
-          <ProductCard key={`deal-${item.id}`} {...item} cardWidth={160} />
-        ))}
-      </ScrollView>
-
-      {/* 7. Trending Products Şeridi Başlığı */}
-      <View style={[styles.sectionHeader, { backgroundColor: '#FD6E8A', borderRadius: 8, padding: 12, marginHorizontal: 16, marginBottom: 16, color: '#fff' }]}>
-        <Text style={[styles.sectionTitle, { color: '#fff' }]}>Trending Products</Text>
-        <TouchableOpacity style={[styles.viewAllBtn, { backgroundColor: 'transparent', borderColor: '#fff', borderWidth: 1 }]}><Text style={{ color: '#fff' }}>View all →</Text></TouchableOpacity>
-      </View>
-    </View>
-  );
+  // Hangi sekmenin aktif olduğunu kontrol eden State (Varsayılan olarak 'Home')
+  const [activeTab, setActiveTab] = useState('Home');
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        data={productsData} 
-        keyExtractor={(item) => `trending-${item.id}`}
-        numColumns={2} 
-        columnWrapperStyle={{ justifyContent: 'space-between', paddingHorizontal: 16 }}
-        ListHeaderComponent={renderHeader}
-        contentContainerStyle={{ paddingBottom: 32 }}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <ProductCard {...item} cardWidth="48%" />}
-      />
+      {/* ScrollView'ın altındaki Tab Bar yüksekliği kadar boşluk kalması için paddingBottom ekledik */}
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
+        {/* 1. Üst Bar */}
+        <View style={styles.header}>
+          <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
+          <Image
+            source={require('../../assets/logoipsum-255 1.png')}
+          />
+          <Image 
+            source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
+            style={styles.profileImage} 
+          />
+        </View>
+
+        {/* 2. Arama Çubuğu */}
+        <View style={styles.searchContainer}>
+          <Image
+            source={require('../../assets/Vector (1).png')}
+          />
+          <TextInput 
+            placeholder="Search any Product..." 
+            style={styles.searchInput} 
+            placeholderTextColor="#999"
+          />
+          <Image
+            source={require('../../assets/Vector.png')}
+          />
+        </View>
+
+        {/* 3. Başlık ve Filtreleme */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.mainTitle}>All Featured</Text>
+          <View style={styles.filterButtons}>
+            <TouchableOpacity style={styles.filterBtn}>
+              <Text>Sort</Text>
+              <Image
+                source={require('../../assets/Component 1.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterBtn}>
+              <Text style={styles.filterText}>Filter</Text>
+              <Image
+                source={require('../../assets/Vector (3).png')}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* 4. Yatay Kategoriler */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
+          {categories.map((cat) => (
+            <View key={cat.id} style={styles.categoryItem}>
+              <Image source={cat.image} style={styles.categoryImage} />
+              <Text style={styles.categoryName}>{cat.name}</Text>
+            </View>
+          ))}
+        </ScrollView>
+
+        {/* 5. Kampanya Banner Alanı */}
+        <View style={styles.bannerContainer}>
+          <ImageBackground 
+            source={require('../../assets/Rectangle 48.png')}
+            style={styles.bannerCard}
+            imageStyle={{ borderRadius: 19 }}
+          >
+            {/* Sol taraftaki metin ve buton alanı */}
+            <View style={styles.bannerTextContainer}>
+              <Text style={styles.bannerTitle}>50-40% OFF</Text>
+              <Text style={styles.bannerSubtitle}>Now in (product){'\n'}All colours</Text>
+              <TouchableOpacity style={styles.bannerButton}>
+                <Text style={styles.bannerButtonText}>Shop Now →</Text>
+              </TouchableOpacity>
+            </View>
+          </ImageBackground>
+
+          {/* Sayfalama Noktaları */}
+          <View style={styles.dotsContainer}>
+            <View style={styles.dot} />
+            <View style={[styles.dot, styles.activeDot]} />
+            <View style={styles.dot} />
+          </View>
+        </View>
+
+        {/* Deal of the Day Başlık */}
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionHeaderLeft}>
+            <Text style={styles.sectionTitle}>Deal of the Day</Text>
+            <Text style={styles.timerText}>⏳ 22h 55m 20s remaining</Text>
+          </View>
+          <TouchableOpacity style={styles.viewAllBtn}><Text style={styles.viewAllText}>View all →</Text></TouchableOpacity>
+        </View>
+
+        {/* Deal of the Day Ürün Listesi */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
+          {productsData.map((item) => (
+            <ProductCard key={`deal-${item.id}`} {...item} cardWidth={160} />
+          ))}
+        </ScrollView>
+
+        {/* Special Offers Section */}
+        <View style={styles.specialOffersContainer}>
+          <View style={styles.specialOffersLeft}>
+            <Image 
+              source={require('../../assets/Rectangle 56.png')}
+              style={styles.specialOffersImage}
+              resizeMode="contain"
+            />
+          </View>
+          
+          <View style={styles.specialOffersRight}>
+            <View style={styles.specialOffersTitleRow}>
+              <Text style={styles.specialOffersTitle}>Special Offers</Text>
+              <Text style={styles.emojiText}>😱</Text>
+            </View>
+            <Text style={styles.specialOffersSubtitle}>
+              We make sure you get the offer you need at best prices
+            </Text>
+          </View>
+        </View>
+
+        {/* Flat 50% OFF Kampanya Bannerı */}
+        <View style={styles.flatDiscountContainer}>
+          {/* Sol Alan: Sarı Şerit ve Ayakkabı */}
+          <View style={styles.flatLeftSection}>
+            <View style={styles.goldBar}/>
+            <Image
+              source={require('../../assets/Rectangle 55.png')}
+              style={styles.flatImage}
+              resizeMode="contain"
+            />
+          </View>
+
+          {/* Sağ Alan: Yazılar ve Buton */}
+          <View style={styles.flatRightSection}>
+            <Text style={styles.flatTitle}>Flat 50% OFF</Text>
+            <Text style={styles.flatSubtitle}>Stand a chance to win...</Text>
+            <TouchableOpacity style={styles.flatButton}>
+              <Text style={styles.flatButtonText}>Visit now →</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Trending Products Başlık Bannerı */}
+        <View style={[styles.sectionHeader, { backgroundColor: '#FD6E8A', borderRadius: 8, padding: 12, marginHorizontal: 16, marginBottom: 16 }]}>
+          <View>
+            <Text style={[styles.sectionTitle, { color: '#fff' }]}>Trending Products</Text>
+            <Text style={styles.trendingDateText}>📅 Last Date 29/02/22</Text>
+          </View>
+          <TouchableOpacity style={[styles.viewAllBtn, { backgroundColor: 'transparent', borderColor: '#fff', borderWidth: 1 }]}>
+            <Text style={{ color: '#fff' }}>View all →</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* 1. Yatay Trending Products Listesi */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
+          {trendingProductsData.map((item) => (
+            <ProductCard key={`trending-${item.id}`} {...item} cardWidth={160} />
+          ))}
+        </ScrollView>
+
+        {/* 2. New Arrivals Banner */}
+        <View style={styles.newArrivalsContainer}>
+          <Image 
+            source={require('../../assets/Mask Group (5).png')} 
+            style={styles.newArrivalsImage}
+            resizeMode="cover"
+          />
+          <View style={styles.newArrivalsFooter}>
+            <View>
+              <Text style={styles.newArrivalsTitle}>New Arrivals</Text>
+              <Text style={styles.newArrivalsSubtitle}>Summer' 25 Collections</Text>
+            </View>
+            <TouchableOpacity style={styles.pinkButton}>
+              <Text style={styles.pinkButtonText}>View all →</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* 3. Sponsored Alanı */}
+        <View style={styles.sponsoredContainer}>
+          <Text style={styles.sponsoredHeaderTitle}>Sponsored</Text>
+          <ImageBackground
+            source={require('../../assets/Mask Group (6).png')} 
+            style={styles.sponsoredBanner}
+            imageStyle={{ borderRadius: 12 }}
+          >
+          </ImageBackground>
+        </View>
+      </ScrollView>
+
+      {/* 📍 GÖRSELLERLE YENİLENMİŞ BOTTOM TAB BAR */}
+      <View style={styles.tabBarContainer}>
+        {/* Home Sekmesi */}
+        <TouchableOpacity 
+          style={styles.tabItem} 
+          onPress={() => setActiveTab('Home')}
+        >
+          <Image 
+            source={
+              activeTab === 'Home' 
+                ? require('../../assets/home.png') 
+                : require('../../assets/home 1.png')
+            }
+            style={styles.tabIconImage}
+            resizeMode="contain"
+          />
+          <Text style={[styles.tabText, activeTab === 'Home' && styles.activeTabText]}>Home</Text>
+        </TouchableOpacity>
+
+        {/* Wishlist Sekmesi */}
+        <TouchableOpacity 
+          style={styles.tabItem} 
+          onPress={() => setActiveTab('Wishlist')}
+        >
+          <Image 
+            source={
+              activeTab === 'Wishlist' 
+                ? require('../../assets/heart 1.png') 
+                : require('../../assets/Vectorhear.png')
+            }
+            style={styles.tabIconImage}
+            resizeMode="contain"
+          />
+          <Text style={[styles.tabText, activeTab === 'Wishlist' && styles.activeTabText]}>Wishlist</Text>
+        </TouchableOpacity>
+
+        {/* Ortadaki Yuvarlak ve Çıkıntılı Sepet Butonu */}
+        <View style={styles.cartButtonWrapper}>
+          <TouchableOpacity 
+            style={[styles.cartButton, activeTab === 'Cart' && styles.activeCartButton]} 
+            onPress={() => setActiveTab('Cart')}
+          >
+            <Image 
+              source={
+                activeTab === 'Cart' 
+                  ? require('../../assets/shopping-cart 2.png') 
+                  : require('../../assets/shopping-cart 2.png')
+              }
+              style={styles.cartIconImage}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+
+        {/* Search Sekmesi */}
+        <TouchableOpacity 
+          style={styles.tabItem} 
+          onPress={() => setActiveTab('Search')}
+        >
+          <Image 
+            source={
+              activeTab === 'Search' 
+                ? require('../../assets/search 1.png') 
+                : require('../../assets/search 1.png')
+            }
+            style={styles.tabIconImage}
+            resizeMode="contain"
+          />
+          <Text style={[styles.tabText, activeTab === 'Search' && styles.activeTabText]}>Search</Text>
+        </TouchableOpacity>
+
+        {/* Setting Sekmesi */}
+        <TouchableOpacity 
+          style={styles.tabItem} 
+          onPress={() => setActiveTab('Setting')}
+        >
+          <Image 
+            source={
+              activeTab === 'Setting' 
+                ? require('../../assets/settings.png') 
+                : require('../../assets/settings.png')
+            }
+            style={styles.tabIconImage}
+            resizeMode="contain"
+          />
+          <Text style={[styles.tabText, activeTab === 'Setting' && styles.activeTabText]}>Setting</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -178,7 +386,7 @@ const styles = StyleSheet.create({
     borderColor: '#EFEFEF',
   },
   searchIcon: { fontSize: 16, marginRight: 8 },
-  searchInput: { flex: 1, height: 44, fontSize: 14 },
+  searchInput: { flex: 1, height: 44, fontSize: 14, marginLeft: 5 },
   micIcon: { fontSize: 16, marginLeft: 8 },
   titleContainer: {
     flexDirection: 'row',
@@ -190,6 +398,8 @@ const styles = StyleSheet.create({
   mainTitle: { fontSize: 18, fontWeight: 'bold', color: '#000' },
   filterButtons: { flexDirection: 'row' },
   filterBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#FFF',
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -213,7 +423,7 @@ const styles = StyleSheet.create({
   categoryName: { fontSize: 12, color: '#333', fontWeight: '500' },
   bannerContainer: {
     marginHorizontal: 16,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   bannerCard: {
     backgroundColor: '#FD6E8A',
@@ -244,24 +454,289 @@ const styles = StyleSheet.create({
   },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#DDD', marginHorizontal: 3 },
   activeDot: { backgroundColor: '#FD6E8A', width: 14 },
-  sectionHeader: {
+  
+  // Special Offers Stilleri
+  specialOffersContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    marginBottom: 10,
+    borderRadius: 12,
+    padding: 14,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  specialOffersLeft: {
+    marginRight: 16,
+  },
+  specialOffersImage: {
+    width: 65,
+    height: 65,
+  },
+  specialOffersRight: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  specialOffersTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  specialOffersTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000000',
+  },
+  emojiText: {
+    fontSize: 16,
+    marginLeft: 6,
+  },
+  specialOffersSubtitle: {
+    fontSize: 12,
+    color: '#666666',
+    lineHeight: 16,
+  },
+
+  // Yeni İndirim Banner'ı Stilleri
+  flatDiscountContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    marginBottom: 20,
+    borderRadius: 12,
+    height: 140,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  flatLeftSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '50%',
+    height: '100%',
+  },
+  goldBar: {
+    width: 6,
+    height: '80%',
+    backgroundColor: '#FFD700',
+    borderRadius: 3,
+    marginLeft: 12,
+  },
+  flatImage: {
+    flex: 1,
+    height: '90%',
+    marginLeft: 4,
+  },
+  flatRightSection: {
+    width: '50%',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+  },
+  flatTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginBottom: 4,
+  },
+  flatSubtitle: {
+    fontSize: 11,
+    color: '#666',
+    marginBottom: 12,
+  },
+  flatButton: {
+    backgroundColor: '#ff006a',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
+  },
+  flatButtonText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+
+  // Yeni Trendler ve Banner'lar için stiller
+  trendingDateText: {
+    fontSize: 11,
+    color: '#ffffff',
+    opacity: 0.9,
+    marginTop: 4,
+  },
+  newArrivalsContainer: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 16,
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  newArrivalsImage: {
+    width: '100%',
+    height: 180,
+  },
+  newArrivalsFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+  },
+  newArrivalsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  newArrivalsSubtitle: {
+    fontSize: 14,
+    color: '#666666',
+    marginTop: 4,
+  },
+  pinkButton: {
+    backgroundColor: '#FD6E8A',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 6,
+  },
+  pinkButtonText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  sponsoredContainer: {
+    marginHorizontal: 16,
+    marginBottom: 24,
+  },
+  sponsoredHeaderTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 12,
+  },
+  sponsoredBanner: {
+    width: '100%',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between', 
     backgroundColor: '#5a75ee',
     alignItems: 'center',
-    width: '80%',
+    alignSelf: 'center', 
+    width: '92%',
     paddingHorizontal: 16,
+    paddingVertical: 10,
     marginBottom: 12,
-    borderRadius: 5,
+    borderRadius: 8,
   },
-  sectionHeaderLeft: { flex: 1 },
+  sectionHeaderLeft: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   sectionTitle: { fontSize: 16, fontWeight: '500', color: '#fff' },
   timerText: { fontSize: 11, color: '#ffffff', marginTop: 2 },
   viewAllBtn: { backgroundColor: '#5a75ee', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 6 },
-  viewAllText: { color: '#fff', fontSize: 12, fontWeight: 'bold', borderWidth: 1,
+  viewAllText: { 
+    color: '#fff', 
+    fontSize: 12, 
+    fontWeight: 'bold', 
+    borderWidth: 1,
     borderColor: '#fff',
     padding: 6,
-    borderRadius: 4,},
+    borderRadius: 4,
+  },
+
+  // 📍 TAB BAR STİLLERİ
+  tabBarContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 75,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+    paddingBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 10,
+  },
+  tabItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  tabIconImage: {
+    width: 24,
+    height: 24,
+    marginBottom: 4,
+  },
+  tabText: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: '#000000',
+  },
+  activeTabText: {
+    color: '#FD6E8A', // Aktifken metnin kırmızı yanması için
+    fontWeight: 'bold',
+  },
+
+  // Ortadaki Sepet Butonunun Çıkıntılı Yapısı
+  cartButtonWrapper: {
+    position: 'relative',
+    top: -20,
+    width: 65,
+    height: 65,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cartButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+  },
+  activeCartButton: {
+    borderColor: '#FD6E8A',
+    borderWidth: 1.5,
+  },
+  cartIconImage: {
+    width: 26,
+    height: 26,
+  },
 });
 
 export default HomeScreen;
