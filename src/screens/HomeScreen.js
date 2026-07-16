@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ImageBackground 
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // 📍 Navigasyon kancası import edildi
 import ProductCard from '../components/ProductCard';
 
 const categories = [
@@ -31,7 +32,7 @@ const productsData = [
     discount: '40',
     rating: '4.3',
     reviewCount: '56,890',
-    image: require ('../../assets/Mask Group.png'),
+    image: require('../../assets/Mask Group.png'),
   },
   {
     id: '2',
@@ -73,7 +74,7 @@ const trendingProductsData = [
 ];
 
 const HomeScreen = () => {
-  // Hangi sekmenin aktif olduğunu kontrol eden State (Varsayılan olarak 'Home')
+  const navigation = useNavigation(); // 📍 Navigasyon objesi doğrudan kancadan çekiliyor
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
@@ -86,10 +87,17 @@ const HomeScreen = () => {
           <Image
             source={require('../../assets/logoipsum-255 1.png')}
           />
-          <Image 
-            source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
-            style={styles.profileImage} 
-          />
+          
+          {/* TIKLANABİLİR PROFİL RESMİ: Profile sayfasına yönlendirir */}
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('Profile')} 
+            activeOpacity={0.7}
+          >
+            <Image 
+              source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
+              style={styles.profileImage} 
+            />
+          </TouchableOpacity>
         </View>
 
         {/* 2. Arama Çubuğu */}
@@ -268,7 +276,7 @@ const HomeScreen = () => {
         </View>
       </ScrollView>
 
-      {/* 📍 GÖRSELLERLE YENİLENMİŞ BOTTOM TAB BAR */}
+      {/* GÖRSELLERLE YENİLENMİŞ BOTTOM TAB BAR */}
       <View style={styles.tabBarContainer}>
         {/* Home Sekmesi */}
         <TouchableOpacity 
@@ -290,7 +298,10 @@ const HomeScreen = () => {
         {/* Wishlist Sekmesi */}
         <TouchableOpacity 
           style={styles.tabItem} 
-          onPress={() => setActiveTab('Wishlist')}
+          onPress={() => {
+            setActiveTab('Wishlist');
+            navigation.navigate('Wishlist');
+          }}
         >
           <Image 
             source={
@@ -431,7 +442,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     overflow: 'hidden',
-    height: 140,
+    height: 180,
   },
   bannerTextContainer: { padding: 16, justifyContent: 'center' },
   bannerTitle: { fontSize: 22, fontWeight: 'bold', color: '#FFF' },
@@ -446,7 +457,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   bannerButtonText: { color: '#FFF', fontSize: 12, fontWeight: 'bold' },
-  bannerImage: { width: 130, height: '100%', resizeMode: 'cover' },
   dotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -631,7 +641,7 @@ const styles = StyleSheet.create({
   },
   sponsoredBanner: {
     width: '100%',
-    height: 200,
+    height: 300,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -665,7 +675,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 
-  // 📍 TAB BAR STİLLERİ
+  // TAB BAR STİLLERİ
   tabBarContainer: {
     position: 'absolute',
     bottom: 0,
@@ -687,7 +697,7 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center', // 📍 justifyStyle hatası düzeltildi
     flex: 1,
   },
   tabIconImage: {
@@ -701,7 +711,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   activeTabText: {
-    color: '#FD6E8A', // Aktifken metnin kırmızı yanması için
+    color: '#FD6E8A',
     fontWeight: 'bold',
   },
 
