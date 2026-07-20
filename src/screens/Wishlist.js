@@ -9,13 +9,12 @@ import {
   SafeAreaView, 
   TouchableOpacity,
   Dimensions 
-} from 'react-native'; // 📍 FlatView hatası temizlendi!
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
-const COLUMN_WIDTH = (width - 48) / 2; // İki sütunlu yapı için genişlik hesabı
+const COLUMN_WIDTH = (width - 48) / 2;
 
-// Görseldeki Ürün Verileri
 const wishlistProducts = [
   {
     id: '1',
@@ -135,13 +134,11 @@ const Wishlist = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
         
-        {/* 1. Üst Bar */}
         <View style={styles.header}>
           <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
           <Image
             source={require('../../assets/logoipsum-255 1.png')}
           />
-          {/* Profil resmine tıklandığında Profile gitme entegrasyonu */}
           <TouchableOpacity onPress={() => navigation.navigate('Profile')} activeOpacity={0.7}>
             <Image 
               source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
@@ -150,7 +147,6 @@ const Wishlist = () => {
           </TouchableOpacity>
         </View>
 
-        {/* 2. Arama Çubuğu */}
         <View style={styles.searchContainer}>
           <Image source={require('../../assets/Vector (1).png')} />
           <TextInput 
@@ -161,7 +157,6 @@ const Wishlist = () => {
           <Image source={require('../../assets/Vector.png')} />
         </View>
 
-        {/* 3. Başlık, Sayı ve Filtreleme */}
         <View style={styles.titleContainer}>
           <Text style={styles.mainTitle}>52,082+ Items</Text>
           <View style={styles.filterButtons}>
@@ -176,14 +171,13 @@ const Wishlist = () => {
           </View>
         </View>
 
-        {/* 4. İki Sütunlu Grid Yapısında Ürünler */}
         <View style={styles.gridContainer}>
           {wishlistProducts.map((item) => (
             <TouchableOpacity 
               key={item.id} 
               style={styles.card}
               activeOpacity={0.9}
-              onPress={() => navigation.navigate('ProductDetail')} // 📍 Detay sayfasına yönlendirme
+              onPress={() => navigation.navigate('ProductDetail')}
             >
               <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
               <View style={styles.cardInfo}>
@@ -202,9 +196,7 @@ const Wishlist = () => {
 
       </ScrollView>
 
-      {/* GÖRSELLERLE BOTTOM TAB BAR */}
       <View style={styles.tabBarContainer}>
-        {/* Home Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image 
             source={require('../../assets/home 1.png')}
@@ -214,7 +206,6 @@ const Wishlist = () => {
           <Text style={styles.tabText}>Home</Text>
         </TouchableOpacity>
 
-        {/* Wishlist Sekmesi (Aktif) */}
         <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab('Wishlist')}>
           <Image 
             source={require('../../assets/heart 1.png')}
@@ -224,20 +215,17 @@ const Wishlist = () => {
           <Text style={[styles.tabText, styles.activeTabText]}>Wishlist</Text>
         </TouchableOpacity>
 
-        {/* Ortadaki Yuvarlak Sepet Butonu */}
         <View style={styles.cartButtonWrapper}>
           <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('Home')}>
             <Image source={require('../../assets/shopping-cart 2.png')} style={styles.cartIconImage} resizeMode="contain" />
           </TouchableOpacity>
         </View>
 
-        {/* Search Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={require('../../assets/search 1.png')} style={styles.tabIconImage} resizeMode="contain" />
           <Text style={styles.tabText}>Search</Text>
         </TouchableOpacity>
 
-        {/* Setting Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={require('../../assets/settings.png')} style={styles.tabIconImage} resizeMode="contain" />
           <Text style={styles.tabText}>Setting</Text>

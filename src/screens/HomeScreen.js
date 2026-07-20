@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   ImageBackground 
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // 📍 Navigasyon kancası import edildi
+import { useNavigation } from '@react-navigation/native';
 import ProductCard from '../components/ProductCard';
 
 const categories = [
@@ -21,7 +21,6 @@ const categories = [
   { id: '5', name: 'Womens', image: require('../../assets/unsplash_OYYE4g-I5ZQ.png') },
 ];
 
-// Örnek Ürün Verileri (Deal of the Day)
 const productsData = [
   {
     id: '1',
@@ -47,7 +46,6 @@ const productsData = [
   },
 ];
 
-// Yeni Trending Ürün Verileri
 const trendingProductsData = [
   {
     id: 't1',
@@ -58,7 +56,7 @@ const trendingProductsData = [
     discount: '60',
     rating: '4.8',
     reviewCount: '1,245',
-    image: require('../../assets/Mask Group.png'),
+    image: require('../../assets/saat.png'),
   },
   {
     id: 't2',
@@ -69,26 +67,22 @@ const trendingProductsData = [
     discount: '70',
     rating: '4.5',
     reviewCount: '3,892',
-    image: require('../../assets/Mask Group (1).png'),
+    image: require('../../assets/whiteshoe.png'),
   },
 ];
 
 const HomeScreen = () => {
-  const navigation = useNavigation(); // 📍 Navigasyon objesi doğrudan kancadan çekiliyor
+  const navigation = useNavigation();
   const [activeTab, setActiveTab] = useState('Home');
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* ScrollView'ın altındaki Tab Bar yüksekliği kadar boşluk kalması için paddingBottom ekledik */}
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
-        {/* 1. Üst Bar */}
         <View style={styles.header}>
           <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
           <Image
             source={require('../../assets/logoipsum-255 1.png')}
           />
-          
-          {/* TIKLANABİLİR PROFİL RESMİ: Profile sayfasına yönlendirir */}
           <TouchableOpacity 
             onPress={() => navigation.navigate('Profile')} 
             activeOpacity={0.7}
@@ -100,7 +94,6 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* 2. Arama Çubuğu */}
         <View style={styles.searchContainer}>
           <Image
             source={require('../../assets/Vector (1).png')}
@@ -115,7 +108,6 @@ const HomeScreen = () => {
           />
         </View>
 
-        {/* 3. Başlık ve Filtreleme */}
         <View style={styles.titleContainer}>
           <Text style={styles.mainTitle}>All Featured</Text>
           <View style={styles.filterButtons}>
@@ -134,7 +126,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* 4. Yatay Kategoriler */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesContainer}>
           {categories.map((cat) => (
             <View key={cat.id} style={styles.categoryItem}>
@@ -144,14 +135,12 @@ const HomeScreen = () => {
           ))}
         </ScrollView>
 
-        {/* 5. Kampanya Banner Alanı */}
         <View style={styles.bannerContainer}>
           <ImageBackground 
             source={require('../../assets/Rectangle 48.png')}
             style={styles.bannerCard}
             imageStyle={{ borderRadius: 19 }}
           >
-            {/* Sol taraftaki metin ve buton alanı */}
             <View style={styles.bannerTextContainer}>
               <Text style={styles.bannerTitle}>50-40% OFF</Text>
               <Text style={styles.bannerSubtitle}>Now in (product){'\n'}All colours</Text>
@@ -161,7 +150,6 @@ const HomeScreen = () => {
             </View>
           </ImageBackground>
 
-          {/* Sayfalama Noktaları */}
           <View style={styles.dotsContainer}>
             <View style={styles.dot} />
             <View style={[styles.dot, styles.activeDot]} />
@@ -169,7 +157,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Deal of the Day Başlık */}
         <View style={styles.sectionHeader}>
           <View style={styles.sectionHeaderLeft}>
             <Text style={styles.sectionTitle}>Deal of the Day</Text>
@@ -178,14 +165,12 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.viewAllBtn}><Text style={styles.viewAllText}>View all →</Text></TouchableOpacity>
         </View>
 
-        {/* Deal of the Day Ürün Listesi */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
           {productsData.map((item) => (
             <ProductCard key={`deal-${item.id}`} {...item} cardWidth={160} />
           ))}
         </ScrollView>
 
-        {/* Special Offers Section */}
         <View style={styles.specialOffersContainer}>
           <View style={styles.specialOffersLeft}>
             <Image 
@@ -206,9 +191,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Flat 50% OFF Kampanya Bannerı */}
         <View style={styles.flatDiscountContainer}>
-          {/* Sol Alan: Sarı Şerit ve Ayakkabı */}
           <View style={styles.flatLeftSection}>
             <View style={styles.goldBar}/>
             <Image
@@ -218,7 +201,6 @@ const HomeScreen = () => {
             />
           </View>
 
-          {/* Sağ Alan: Yazılar ve Buton */}
           <View style={styles.flatRightSection}>
             <Text style={styles.flatTitle}>Flat 50% OFF</Text>
             <Text style={styles.flatSubtitle}>Stand a chance to win...</Text>
@@ -228,7 +210,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Trending Products Başlık Bannerı */}
         <View style={[styles.sectionHeader, { backgroundColor: '#FD6E8A', borderRadius: 8, padding: 12, marginHorizontal: 16, marginBottom: 16 }]}>
           <View>
             <Text style={[styles.sectionTitle, { color: '#fff' }]}>Trending Products</Text>
@@ -239,14 +220,12 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* 1. Yatay Trending Products Listesi */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
           {trendingProductsData.map((item) => (
             <ProductCard key={`trending-${item.id}`} {...item} cardWidth={160} />
           ))}
         </ScrollView>
 
-        {/* 2. New Arrivals Banner */}
         <View style={styles.newArrivalsContainer}>
           <Image 
             source={require('../../assets/Mask Group (5).png')} 
@@ -264,7 +243,6 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* 3. Sponsored Alanı */}
         <View style={styles.sponsoredContainer}>
           <Text style={styles.sponsoredHeaderTitle}>Sponsored</Text>
           <ImageBackground
@@ -276,16 +254,14 @@ const HomeScreen = () => {
         </View>
       </ScrollView>
 
-      {/* GÖRSELLERLE YENİLENMİŞ BOTTOM TAB BAR */}
       <View style={styles.tabBarContainer}>
-        {/* Home Sekmesi */}
         <TouchableOpacity 
           style={styles.tabItem} 
           onPress={() => setActiveTab('Home')}
         >
           <Image 
             source={
-              activeTab === 'Home' 
+              activeTab === 'Home'
                 ? require('../../assets/home.png') 
                 : require('../../assets/home 1.png')
             }
@@ -295,7 +271,6 @@ const HomeScreen = () => {
           <Text style={[styles.tabText, activeTab === 'Home' && styles.activeTabText]}>Home</Text>
         </TouchableOpacity>
 
-        {/* Wishlist Sekmesi */}
         <TouchableOpacity 
           style={styles.tabItem} 
           onPress={() => {
@@ -315,7 +290,6 @@ const HomeScreen = () => {
           <Text style={[styles.tabText, activeTab === 'Wishlist' && styles.activeTabText]}>Wishlist</Text>
         </TouchableOpacity>
 
-        {/* Ortadaki Yuvarlak ve Çıkıntılı Sepet Butonu */}
         <View style={styles.cartButtonWrapper}>
           <TouchableOpacity 
             style={[styles.cartButton, activeTab === 'Cart' && styles.activeCartButton]} 
@@ -333,7 +307,6 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Search Sekmesi */}
         <TouchableOpacity 
           style={styles.tabItem} 
           onPress={() => setActiveTab('Search')}
@@ -350,7 +323,6 @@ const HomeScreen = () => {
           <Text style={[styles.tabText, activeTab === 'Search' && styles.activeTabText]}>Search</Text>
         </TouchableOpacity>
 
-        {/* Setting Sekmesi */}
         <TouchableOpacity 
           style={styles.tabItem} 
           onPress={() => setActiveTab('Setting')}
@@ -465,7 +437,6 @@ const styles = StyleSheet.create({
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#DDD', marginHorizontal: 3 },
   activeDot: { backgroundColor: '#FD6E8A', width: 14 },
   
-  // Special Offers Stilleri
   specialOffersContainer: {
     flexDirection: 'row',
     backgroundColor: '#FFFFFF',
@@ -577,7 +548,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // Yeni Trendler ve Banner'lar için stiller
   trendingDateText: {
     fontSize: 11,
     color: '#ffffff',
@@ -675,7 +645,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 
-  // TAB BAR STİLLERİ
   tabBarContainer: {
     position: 'absolute',
     bottom: 0,
@@ -697,7 +666,7 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     alignItems: 'center',
-    justifyContent: 'center', // 📍 justifyStyle hatası düzeltildi
+    justifyContent: 'center',
     flex: 1,
   },
   tabIconImage: {
@@ -715,7 +684,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // Ortadaki Sepet Butonunun Çıkıntılı Yapısı
   cartButtonWrapper: {
     position: 'relative',
     top: -20,

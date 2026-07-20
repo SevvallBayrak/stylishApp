@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 const ProfileScreen = ({ navigation }) => {
-  // Girdi Alanları için State Tanımlamaları (Görseldeki varsayılan değerlerle)
   const [email, setEmail] = useState('aashifa@gmail.com');
   const [password, setPassword] = useState('************');
   const [pincode, setPincode] = useState('450116');
@@ -27,26 +26,22 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Klavye açıldığında inputların kapanmaması için */}
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        {/* Üst Bar / Header */}
         <View style={styles.header}>
           <TouchableOpacity 
             style={styles.backButton} 
-            onPress={() => navigation.goBack()}
-          >
+            onPress={() => navigation.goBack()}>
             <Text style={styles.backArrow}>‹</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Checkout</Text>
-          <View style={{ width: 40 }} />{/* Başlığı ortalamak için boş spacer */}
+          <View style={{ width: 40 }} />
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
           
-          {/* 1. Profil Resmi ve Düzenle İkonu */}
           <View style={styles.avatarContainer}>
             <View style={styles.avatarWrapper}>
               <Image
@@ -58,11 +53,8 @@ const ProfileScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* 2. Personal Details Bölümü */}
           <View style={styles.section}>
             <Text style={styles.sectionHeaderTitle}>Personal Details</Text>
-            
             <Text style={styles.inputLabel}>Email Address</Text>
             <TextInput
               style={styles.input}
@@ -71,7 +63,6 @@ const ProfileScreen = ({ navigation }) => {
               keyboardType="email-address"
               autoCapitalize="none"
             />
-
             <Text style={styles.inputLabel}>Password</Text>
             <TextInput
               style={styles.input}
@@ -79,7 +70,6 @@ const ProfileScreen = ({ navigation }) => {
               onChangeText={setPassword}
               secureTextEntry
             />
-            
             <TouchableOpacity style={styles.changePasswordButton}>
               <Text style={styles.changePasswordText}>Change Password</Text>
             </TouchableOpacity>
@@ -87,7 +77,6 @@ const ProfileScreen = ({ navigation }) => {
 
           <View style={styles.divider} />
 
-          {/* 3. Business Address Details Bölümü */}
           <View style={styles.section}>
             <Text style={styles.sectionHeaderTitle}>Business Address Details</Text>
 
@@ -133,7 +122,6 @@ const ProfileScreen = ({ navigation }) => {
 
           <View style={styles.divider} />
 
-          {/* 4. Bank Account Details Bölümü */}
           <View style={styles.section}>
             <Text style={styles.sectionHeaderTitle}>Bank Account Details</Text>
 
@@ -161,7 +149,6 @@ const ProfileScreen = ({ navigation }) => {
             />
           </View>
 
-          {/* 5. Kaydet Butonu */}
           <TouchableOpacity style={styles.saveButton} activeOpacity={0.9}>
             <Text style={styles.saveButtonText}>Save</Text>
           </TouchableOpacity>
@@ -228,7 +215,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#4B97FA', // Görseldeki mavi düzenleme butonu rengi
+    backgroundColor: '#4B97FA',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
@@ -271,7 +258,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   changePasswordText: {
-    color: '#FD6E8A', // Temadaki pembe renk tonu
+    color: '#FD6E8A',
     fontSize: 12,
     fontWeight: '500',
   },
@@ -302,10 +289,10 @@ const styles = StyleSheet.create({
     right: 16,
     fontSize: 16,
     color: '#888',
-    transform: [{ rotate: '180deg' }], // Ok simgesini aşağı döndürmek için
+    transform: [{ rotate: '180deg' }],
   },
   saveButton: {
-    backgroundColor: '#FD6E8A', // Buton pembe rengi
+    backgroundColor: '#FD6E8A',
     height: 48,
     borderRadius: 8,
     justifyContent: 'center',

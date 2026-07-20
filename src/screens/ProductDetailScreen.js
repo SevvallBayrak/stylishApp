@@ -17,14 +17,12 @@ const sizes = ['6 UK', '7 UK', '8 UK', '9 UK', '10 UK'];
 const ProductDetail = () => {
   const navigation = useNavigation();
   const [selectedSize, setSelectedSize] = useState('7 UK');
-  const [activeTab, setActiveTab] = useState('Home'); // Detay sayfası genel akışta Home altında olduğu için varsayılan Home
+  const [activeTab, setActiveTab] = useState('Home');
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* ScrollView'ın altındaki Tab Bar yüksekliği kadar boşluk kalması için paddingBottom ekledik */}
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
         
-        {/* Üst Bar / Header */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
             <Text style={styles.backArrow}>‹</Text>
@@ -34,7 +32,6 @@ const ProductDetail = () => {
           </TouchableOpacity>
         </View>
 
-        {/* 1. Ürün Görseli ve Slider Alanı */}
         <View style={styles.imageContainer}>
           <Image 
             source={require('../../assets/jordan_detail.png')} 
@@ -45,7 +42,6 @@ const ProductDetail = () => {
             <Text style={styles.nextArrow}>›</Text>
           </TouchableOpacity>
           
-          {/* Sayfalama Noktaları */}
           <View style={styles.dotsContainer}>
             <View style={[styles.dot, styles.activeDot]} />
             <View style={styles.dot} />
@@ -55,7 +51,6 @@ const ProductDetail = () => {
           </View>
         </View>
 
-        {/* 2. Beden Seçimi */}
         <View style={styles.sizeSection}>
           <Text style={styles.sizeTitle}>Size: {selectedSize}</Text>
           <View style={styles.sizeRow}>
@@ -76,7 +71,6 @@ const ProductDetail = () => {
           </View>
         </View>
 
-        {/* 3. Ürün Bilgileri */}
         <View style={styles.infoSection}>
           <Text style={styles.productTitle}>Nike Sneakers</Text>
           <Text style={styles.productSubtitle}>Vision Alta Men's Shoes Size (All Colours)</Text>
@@ -93,7 +87,6 @@ const ProductDetail = () => {
           </View>
         </View>
 
-        {/* 4. Ürün Detayları Açıklaması */}
         <View style={styles.detailsSection}>
           <Text style={styles.detailsTitle}>Product Details</Text>
           <Text style={styles.detailsBody}>
@@ -102,7 +95,6 @@ const ProductDetail = () => {
           </Text>
         </View>
 
-        {/* 5. Özellik Rozetleri */}
         <View style={styles.badgeRow}>
           <View style={styles.badge}>
             <Text style={styles.badgeText}>📍 Nearest Store</Text>
@@ -115,7 +107,6 @@ const ProductDetail = () => {
           </View>
         </View>
 
-        {/* 6. Satın Alma Butonları */}
         <View style={styles.actionRow}>
           <TouchableOpacity style={[styles.actionBtn, styles.btnCart]}>
             <Text style={styles.actionBtnText}>🛒 Go to cart</Text>
@@ -125,13 +116,11 @@ const ProductDetail = () => {
           </TouchableOpacity>
         </View>
 
-        {/* 7. Teslimat Banner'ı */}
         <View style={styles.deliveryBanner}>
           <Text style={styles.deliveryTitle}>Delivery in</Text>
           <Text style={styles.deliveryTime}>1 within Hour</Text>
         </View>
 
-        {/* 8. Ek İşlem Butonları */}
         <View style={styles.extraActionsRow}>
           <TouchableOpacity style={styles.extraBtn}>
             <Text style={styles.extraBtnText}>👁️ View Similar</Text>
@@ -141,7 +130,6 @@ const ProductDetail = () => {
           </TouchableOpacity>
         </View>
 
-        {/* 9. Benzer Ürünler Bölümü */}
         <View style={styles.similarSection}>
           <View style={styles.similarHeader}>
             <View>
@@ -154,7 +142,6 @@ const ProductDetail = () => {
             </View>
           </View>
 
-          {/* İki Benzer Ürün Kartı */}
           <View style={styles.similarGrid}>
             <View style={styles.similarCard}>
               <Image source={require('../../assets/jordan_detail.png')} style={styles.similarCardImage} />
@@ -180,19 +167,16 @@ const ProductDetail = () => {
 
       </ScrollView>
 
-      {/* GÖRSELLERLE BOTTOM TAB BAR */}
       <View style={styles.tabBarContainer}>
-        {/* Home Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image 
-            source={require('../../assets/home.png')} // Home sekmesi aktif veya yönlendirilebilir
+            source={require('../../assets/home.png')}
             style={styles.tabIconImage}
             resizeMode="contain"
           />
           <Text style={[styles.tabText, styles.activeTabText]}>Home</Text>
         </TouchableOpacity>
 
-        {/* Wishlist Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Wishlist')}>
           <Image 
             source={require('../../assets/Vectorhear.png')}
@@ -202,20 +186,17 @@ const ProductDetail = () => {
           <Text style={styles.tabText}>Wishlist</Text>
         </TouchableOpacity>
 
-        {/* Ortadaki Yuvarlak Sepet Butonu */}
         <View style={styles.cartButtonWrapper}>
           <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('Home')}>
             <Image source={require('../../assets/shopping-cart 2.png')} style={styles.cartIconImage} resizeMode="contain" />
           </TouchableOpacity>
         </View>
 
-        {/* Search Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={require('../../assets/search 1.png')} style={styles.tabIconImage} resizeMode="contain" />
           <Text style={styles.tabText}>Search</Text>
         </TouchableOpacity>
 
-        {/* Setting Sekmesi */}
         <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
           <Image source={require('../../assets/settings.png')} style={styles.tabIconImage} resizeMode="contain" />
           <Text style={styles.tabText}>Setting</Text>
