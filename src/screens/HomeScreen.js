@@ -73,12 +73,11 @@ const trendingProductsData = [
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [activeTab, setActiveTab] = useState('Home');
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
           <Image
             source={require('../../assets/logoipsum-255 1.png')}
@@ -92,7 +91,7 @@ const HomeScreen = () => {
               style={styles.profileImage} 
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.searchContainer}>
           <Image
@@ -253,92 +252,6 @@ const HomeScreen = () => {
           </ImageBackground>
         </View>
       </ScrollView>
-
-      <View style={styles.tabBarContainer}>
-        <TouchableOpacity 
-          style={styles.tabItem} 
-          onPress={() => setActiveTab('Home')}
-        >
-          <Image 
-            source={
-              activeTab === 'Home'
-                ? require('../../assets/home.png') 
-                : require('../../assets/home 1.png')
-            }
-            style={styles.tabIconImage}
-            resizeMode="contain"
-          />
-          <Text style={[styles.tabText, activeTab === 'Home' && styles.activeTabText]}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.tabItem} 
-          onPress={() => {
-            setActiveTab('Wishlist');
-            navigation.navigate('Wishlist');
-          }}
-        >
-          <Image 
-            source={
-              activeTab === 'Wishlist' 
-                ? require('../../assets/heart 1.png') 
-                : require('../../assets/Vectorhear.png')
-            }
-            style={styles.tabIconImage}
-            resizeMode="contain"
-          />
-          <Text style={[styles.tabText, activeTab === 'Wishlist' && styles.activeTabText]}>Wishlist</Text>
-        </TouchableOpacity>
-
-        <View style={styles.cartButtonWrapper}>
-          <TouchableOpacity 
-            style={[styles.cartButton, activeTab === 'Cart' && styles.activeCartButton]} 
-            onPress={() => setActiveTab('Cart')}
-          >
-            <Image 
-              source={
-                activeTab === 'Cart' 
-                  ? require('../../assets/shopping-cart 2.png') 
-                  : require('../../assets/shopping-cart 2.png')
-              }
-              style={styles.cartIconImage}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity 
-          style={styles.tabItem} 
-          onPress={() => setActiveTab('Search')}
-        >
-          <Image 
-            source={
-              activeTab === 'Search' 
-                ? require('../../assets/search 1.png') 
-                : require('../../assets/search 1.png')
-            }
-            style={styles.tabIconImage}
-            resizeMode="contain"
-          />
-          <Text style={[styles.tabText, activeTab === 'Search' && styles.activeTabText]}>Search</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.tabItem} 
-          onPress={() => setActiveTab('Setting')}
-        >
-          <Image 
-            source={
-              activeTab === 'Setting' 
-                ? require('../../assets/settings.png') 
-                : require('../../assets/settings.png')
-            }
-            style={styles.tabIconImage}
-            resizeMode="contain"
-          />
-          <Text style={[styles.tabText, activeTab === 'Setting' && styles.activeTabText]}>Setting</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 };
