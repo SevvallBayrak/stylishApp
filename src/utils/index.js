@@ -1,7 +1,3 @@
-import {
-  createStaticNavigation,
-  useNavigationContainerRef,
-} from '@react-navigation/native';
-import React from 'react';
+import { createNavigationContainerRef } from '@react-navigation/native';
 
-export const navigationRef = useNavigationContainerRef(); // You can also use a regular ref with `React.useRef()`
+export const navigationRef = createNavigationContainerRef();

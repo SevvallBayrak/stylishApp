@@ -5,15 +5,15 @@ import {
   StyleSheet, 
   TextInput, 
   Image, 
-  ScrollView, 
   SafeAreaView, 
   TouchableOpacity,
-  Dimensions 
+  Dimensions,
+  FlatList 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
-const COLUMN_WIDTH = (width - 48) / 2;
+const COLUMN_WIDTH = (width - 48) / 2; 
 
 const wishlistProducts = [
   {
@@ -128,110 +128,68 @@ const wishlistProducts = [
 
 const Wishlist = () => {
   const navigation = useNavigation();
-  const [activeTab, setActiveTab] = useState('Wishlist');
+
+  const renderProductItem = ({ item }) => (
+    <TouchableOpacity 
+      style={styles.card}
+      activeOpacity={0.9}
+      onPress={() => navigation.navigate('ProductDetail')}
+    >
+      <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
+      <View style={styles.cardInfo}>
+        <Text style={styles.cardTitle} numberOfLines={1}>{item.title}</Text>
+        <Text style={styles.cardDescription} numberOfLines={2}>{item.description}</Text>
+        <Text style={styles.cardPrice}>₹{item.price}</Text>
+        
+        <View style={styles.ratingRow}>
+          <Text style={styles.starText}>⭐ ⭐ ⭐ ⭐ ⭐</Text>
+          <Text style={styles.reviewText}>{item.reviewCount}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  // 📍 2. Liste Üst Alanı (Arama çubuğu ve Filtreleme)
+  const renderHeader = () => (
+    <View style={styles.headerWrapper}>
+      <View style={styles.searchContainer}>
+        <Image source={require('../../assets/Vector (1).png')} />
+        <TextInput 
+          placeholder="Search any Product..." 
+          style={styles.searchInput} 
+          placeholderTextColor="#999"
+        />
+        <Image source={require('../../assets/Vector.png')} />
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.mainTitle}>52,082+ Items</Text>
+        <View style={styles.filterButtons}>
+          <TouchableOpacity style={styles.filterBtn}>
+            <Text style={styles.filterBtnText}>Sort</Text>
+            <Image source={require('../../assets/Component 1.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.filterBtn}>
+            <Text style={styles.filterBtnText}>Filter</Text>
+            <Image source={require('../../assets/Vector (3).png')} />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
-        
-        <View style={styles.header}>
-          <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
-          <Image
-            source={require('../../assets/logoipsum-255 1.png')}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate('Profile')} activeOpacity={0.7}>
-            <Image 
-              source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
-              style={styles.profileImage} 
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.searchContainer}>
-          <Image source={require('../../assets/Vector (1).png')} />
-          <TextInput 
-            placeholder="Search any Product..." 
-            style={styles.searchInput} 
-            placeholderTextColor="#999"
-          />
-          <Image source={require('../../assets/Vector.png')} />
-        </View>
-
-        <View style={styles.titleContainer}>
-          <Text style={styles.mainTitle}>52,082+ Items</Text>
-          <View style={styles.filterButtons}>
-            <TouchableOpacity style={styles.filterBtn}>
-              <Text style={styles.filterBtnText}>Sort</Text>
-              <Image source={require('../../assets/Component 1.png')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filterBtn}>
-              <Text style={styles.filterBtnText}>Filter</Text>
-              <Image source={require('../../assets/Vector (3).png')} />
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.gridContainer}>
-          {wishlistProducts.map((item) => (
-            <TouchableOpacity 
-              key={item.id} 
-              style={styles.card}
-              activeOpacity={0.9}
-              onPress={() => navigation.navigate('ProductDetail')}
-            >
-              <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
-              <View style={styles.cardInfo}>
-                <Text style={styles.cardTitle} numberOfLines={1}>{item.title}</Text>
-                <Text style={styles.cardDescription} numberOfLines={2}>{item.description}</Text>
-                <Text style={styles.cardPrice}>₹{item.price}</Text>
-                
-                <View style={styles.ratingRow}>
-                  <Text style={styles.starText}>⭐ ⭐ ⭐ ⭐ ⭐</Text>
-                  <Text style={styles.reviewText}>{item.reviewCount}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-      </ScrollView>
-
-      <View style={styles.tabBarContainer}>
-        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
-          <Image 
-            source={require('../../assets/home 1.png')}
-            style={styles.tabIconImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.tabText}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab('Wishlist')}>
-          <Image 
-            source={require('../../assets/heart 1.png')}
-            style={styles.tabIconImage}
-            resizeMode="contain"
-          />
-          <Text style={[styles.tabText, styles.activeTabText]}>Wishlist</Text>
-        </TouchableOpacity>
-
-        <View style={styles.cartButtonWrapper}>
-          <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('Home')}>
-            <Image source={require('../../assets/shopping-cart 2.png')} style={styles.cartIconImage} resizeMode="contain" />
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
-          <Image source={require('../../assets/search 1.png')} style={styles.tabIconImage} resizeMode="contain" />
-          <Text style={styles.tabText}>Search</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => navigation.navigate('Home')}>
-          <Image source={require('../../assets/settings.png')} style={styles.tabIconImage} resizeMode="contain" />
-          <Text style={styles.tabText}>Setting</Text>
-        </TouchableOpacity>
-      </View>
-
+      <FlatList
+        data={wishlistProducts}
+        renderItem={renderProductItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2} // 📍 2 Yan Yana Izgara Düzeni
+        ListHeaderComponent={renderHeader}
+        columnWrapperStyle={styles.columnWrapper} // 📍 İki kolon arasındaki düzgün boşluk
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContentContainer}
+      />
     </SafeAreaView>
   );
 };
@@ -241,36 +199,43 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FAFAFA',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  listContentContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingBottom: 110, // TabBar'ın altında kalmaması için verilen alt boşluk
   },
-  menuIcon: { fontSize: 24, color: '#333' },
-  profileImage: { width: 40, height: 40, borderRadius: 20 },
+  headerWrapper: {
+    paddingTop: 10,
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFF',
-    marginHorizontal: 16,
+    backgroundColor: '#ffffff',
     borderRadius: 10,
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: '#EFEFEF',
   },
-  searchInput: { flex: 1, height: 44, fontSize: 14, marginLeft: 5 },
+  searchInput: { 
+    flex: 1, 
+    height: 44, 
+    fontSize: 14, 
+    marginLeft: 5 
+  },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
     marginTop: 20,
     marginBottom: 16,
   },
-  mainTitle: { fontSize: 18, fontWeight: 'bold', color: '#000' },
-  filterButtons: { flexDirection: 'row' },
+  mainTitle: { 
+    fontSize: 18, 
+    fontWeight: 'bold', 
+    color: '#000' 
+  },
+  filterButtons: { 
+    flexDirection: 'row' 
+  },
   filterBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -282,12 +247,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#EFEFEF',
   },
-  filterBtnText: { fontSize: 12, color: '#333', marginRight: 4 },
-  gridContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
+  filterBtnText: { 
+    fontSize: 12, 
+    color: '#333', 
+    marginRight: 4 
+  },
+  columnWrapper: {
+    justifyContent: 'space-between', // İki kartı sağa ve sola hizalar
   },
   card: {
     width: COLUMN_WIDTH,
@@ -340,71 +306,6 @@ const styles = StyleSheet.create({
   reviewText: {
     fontSize: 9,
     color: '#999',
-  },
-  tabBarContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 75,
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#F0F0F0',
-    paddingBottom: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  tabItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  tabIconImage: {
-    width: 24,
-    height: 24,
-    marginBottom: 4,
-  },
-  tabText: {
-    fontSize: 11,
-    fontWeight: '500',
-    color: '#000000',
-  },
-  activeTabText: {
-    color: '#FD6E8A',
-    fontWeight: 'bold',
-  },
-  cartButtonWrapper: {
-    position: 'relative',
-    top: -20,
-    width: 65,
-    height: 65,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cartButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    elevation: 8,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
-  },
-  cartIconImage: {
-    width: 26,
-    height: 26,
   },
 });
 

@@ -1,6 +1,7 @@
 import React from "react";
 import {View, TouchableOpacity, Image, StyleSheet, Text} from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { navigationRef } from '../utils/index';
 
 function Header() {
     return (
@@ -13,9 +14,9 @@ function Header() {
             source={require('../../assets/logoipsum-255 1.png')}
           />
           <TouchableOpacity 
-            onPress={() => navigation.navigate('Profile')} 
+            onPress={() => navigationRef?.navigate('Profile')} 
             activeOpacity={0.7}
-          >
+            >
             <Image 
               source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
               style={styles.profileImage} 

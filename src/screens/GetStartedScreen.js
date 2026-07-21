@@ -8,9 +8,23 @@ import {
   SafeAreaView
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GetStartedScreen = () => {
   const navigation = useNavigation();
+
+  const handleGetStarted = async () => {
+    try {
+      await AsyncStorage.setItem('hasLaunched', 'true');
+
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainApp' }],
+      });
+    } catch (error) {
+      console.log('AsyncStorage kayıt hatası:', error);
+    }
+  };
 
   return (
     <ImageBackground
@@ -32,7 +46,7 @@ const GetStartedScreen = () => {
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.9}
-            onPress={() => navigation.navigate('Home')}
+            onPress={handleGetStarted}
           >
             <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
