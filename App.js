@@ -10,7 +10,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen'; 
 import WishlistScreen from './src/screens/Wishlist'; 
 import ProductDetailScreen from './src/screens/ProductDetailScreen';
-
+import loginScreen from './src/screens/loginScreen';
 import Header from './src/navigation/Header';
 import TabBar from './src/navigation/TabBar';
 import { navigationRef } from './src/utils/index';
@@ -22,13 +22,14 @@ const Tab = createBottomTabNavigator();
 const HomeStackScreen = () => {
   return (
     <Stack.Navigator 
-      initialRouteName="Home"
+      initialRouteName="loginScreen"
       screenOptions={{ header: () => <Header /> }}
     >
       <Stack.Group screenOptions={{ animation: 'fade' }}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Wishlist" component={WishlistScreen} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+        <Stack.Screen name="loginScreen" component={loginScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
