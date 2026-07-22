@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,17 +7,54 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  FlatList
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 const sizes = ['6 UK', '7 UK', '8 UK', '9 UK', '10 UK'];
 
+const productImages = [
+  require('../../assets/jordan_detail.png'),
+  require('../../assets/ayakkabı2.png'),
+  require('../../assets/ayakkabı3.png'),
+  require('../../assets/ayakkabı4.png'),
+  require('../../assets/ayakkabı5.png'),
+];
+
 const ProductDetail = () => {
   const navigation = useNavigation();
+  const flatListRef = useRef(null);
+
   const [selectedSize, setSelectedSize] = useState('7 UK');
   const [activeTab, setActiveTab] = useState('Home');
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const sliderWidth = width - 32;
+
+  const handleScroll = (event) => {
+    const scrollPosition = event.nativeEvent.contentOffset.x;
+    const index = Math.round(scrollPosition / sliderWidth);
+    if (index !== activeImageIndex && index >= 0 && index < productImages.length) {
+      setActiveImageIndex(index);
+    }
+  };
+  const handleNextImage = () => {
+    if (activeImageIndex < productImages.length - 1) {
+      flatListRef.current?.scrollToIndex({
+        index: activeImageIndex + 1,
+        animated: true,
+      });
+    }
+  };
+  const handlePrevImage = () => {
+    if (activeImageIndex > 0) {
+      flatListRef.current?.scrollToIndex({
+        index: activeImageIndex - 1,
+        animated: true,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,22 +69,53 @@ const ProductDetail = () => {
           </TouchableOpacity>
         </View>
 
+        {/* --- KAYDIRMALI SLIDER ALANI --- */}
         <View style={styles.imageContainer}>
-          <Image 
-            source={require('../../assets/jordan_detail.png')} 
-            style={styles.productImage}
-            resizeMode="cover"
+          <FlatList
+            ref={flatListRef}
+            data={productImages}
+            keyExtractor={(_, index) => index.toString()}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleScroll}
+            renderItem={({ item }) => (
+              <Image 
+                source={item} 
+                style={[styles.productImage, { width: sliderWidth }]}
+                resizeMode="cover"
+              />
+            )}
           />
-          <TouchableOpacity style={styles.nextArrowContainer} activeOpacity={0.8}>
-            <Text style={styles.nextArrow}>›</Text>
-          </TouchableOpacity>
+          {activeImageIndex > 0 && (
+            <TouchableOpacity 
+              style={[styles.arrowContainer, styles.prevArrowContainer]} 
+              activeOpacity={0.8}
+              onPress={handlePrevImage}
+            >
+              <Text style={styles.arrowText}>‹</Text>
+            </TouchableOpacity>
+          )}
+          {activeImageIndex < productImages.length - 1 && (
+            <TouchableOpacity 
+              style={[styles.arrowContainer, styles.nextArrowContainer]} 
+              activeOpacity={0.8}
+              onPress={handleNextImage}
+            >
+              <Text style={styles.arrowText}>›</Text>
+            </TouchableOpacity>
+          )}
           
           <View style={styles.dotsContainer}>
-            <View style={[styles.dot, styles.activeDot]} />
-            <View style={styles.dot} />
-            <View style={styles.dot} />
-            <View style={styles.dot} />
-            <View style={styles.dot} />
+            {productImages.map((_, index) => (
+              <View 
+                key={index} 
+                style={[
+                  styles.dot, 
+                  activeImageIndex === index && styles.activeDot
+                ]} 
+              />
+            ))}
           </View>
         </View>
 
@@ -212,12 +280,10 @@ const styles = StyleSheet.create({
     height: 250,
   },
   productImage: {
-    width: '100%',
     height: '100%',
   },
-  nextArrowContainer: {
+  arrowContainer: {
     position: 'absolute',
-    right: 16,
     top: '40%',
     width: 40,
     height: 40,
@@ -226,14 +292,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  nextArrow: {
+  prevArrowContainer: {
+    left: 16,
+  },
+  nextArrowContainer: {
+    right: 16,
+  },
+  arrowText: {
     fontSize: 24,
     color: '#333',
     fontWeight: 'bold',
+    marginTop: -2,
   },
   dotsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
     bottom: 12,
     left: 0,

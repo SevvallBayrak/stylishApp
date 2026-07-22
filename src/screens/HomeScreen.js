@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ProductCard from '../components/ProductCard';
+import { FlatList } from 'react-native-gesture-handler';
 
 const categories = [
   { id: '1', name: 'Beauty', image: require('../../assets/Ellipse 4.png')},
@@ -44,6 +45,28 @@ const productsData = [
     reviewCount: '144,567',
     image: require('../../assets/Mask Group (1).png'),
   },
+  {
+    id: '3',
+    title: 'Philips BHH880/10',
+    description: 'Hair Straightening Brush With Keratin Infused Bristles (Black).',
+    price: '999',
+    originalPrice: '1999',
+    discount: '50',
+    rating: '4.6',
+    reviewCount: '646776',
+    image: require('../../assets/philips.png'),
+  },
+  {
+    id: '4',
+    title: 'TITAN Men Watch- 1806N',
+    description: 'This Titan watch in Black color is I wanted to buy for a long time',
+    price: '1500',
+    originalPrice: '3500',
+    discount: '60',
+    rating: '4.6',
+    reviewCount: '15007',
+    image: require('../../assets/newsaaat.png'),
+  },
 ];
 
 const trendingProductsData = [
@@ -69,6 +92,40 @@ const trendingProductsData = [
     reviewCount: '3,892',
     image: require('../../assets/whiteshoe.png'),
   },
+  {
+    id: 't3',
+    title: 'Mammon Womens Handbag',
+    description: '(Set of 3, Beige)',
+    price: '750',
+    originalPrice: '1999',
+    discount: '60',
+    rating: '4.5',
+    reviewCount: '3,892',
+    image: require('../../assets/womenbag.png'),
+  },
+  {
+    id: 't4',
+    title: 'Do Bhai Women Wedges Sandal',
+    description: '(Butterfly)',
+    price: '750',
+    originalPrice: '1499',
+    discount: '50',
+    rating: '4.5',
+    reviewCount: '3,892',
+    image: require('../../assets/sandalet.png'),
+  },
+  {
+    id: 't5',
+    title: 'Lakme Enrich Matte Lipstick - Shade',
+    description: 'RM1(4.7gm)',
+    price: '950',
+    originalPrice: '1490',
+    discount: '70',
+    rating: '4.5',
+    reviewCount: '3,892',
+    image: require('../../assets/ruj.png'),
+  },
+
 ];
 
 const HomeScreen = () => {
@@ -77,22 +134,6 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 110 }}>
-        {/* <View style={styles.header}>
-          <TouchableOpacity><Text style={styles.menuIcon}>☰</Text></TouchableOpacity>
-          <Image
-            source={require('../../assets/logoipsum-255 1.png')}
-          />
-          <TouchableOpacity 
-            onPress={() => navigation.navigate('Profile')} 
-            activeOpacity={0.7}
-          >
-            <Image 
-              source={require('../../assets/2289_SkVNQSBGQU1PIDEwMjgtMTE2 1.png')} 
-              style={styles.profileImage} 
-            />
-          </TouchableOpacity>
-        </View> */}
-
         <View style={styles.searchContainer}>
           <Image
             source={require('../../assets/Vector (1).png')}
@@ -164,12 +205,16 @@ const HomeScreen = () => {
           <TouchableOpacity style={styles.viewAllBtn}><Text style={styles.viewAllText}>View all →</Text></TouchableOpacity>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
-          {productsData.map((item) => (
-            <ProductCard key={`deal-${item.id}`} {...item} cardWidth={160} />
-          ))}
-        </ScrollView>
-
+<FlatList
+  data={productsData}
+  keyExtractor={(item) => `deal-${item.id}`}
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{ paddingHorizontal: 16, marginBottom: 24 }}
+  renderItem={({ item }) => (
+    <ProductCard {...item} cardWidth={160} />
+  )}
+/>
         <View style={styles.specialOffersContainer}>
           <View style={styles.specialOffersLeft}>
             <Image 
@@ -219,11 +264,16 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingLeft: 16, marginBottom: 24 }}>
-          {trendingProductsData.map((item) => (
-            <ProductCard key={`trending-${item.id}`} {...item} cardWidth={160} />
-          ))}
-        </ScrollView>
+        <FlatList
+          data={trendingProductsData}
+          keyExtractor={(item) => `trending-${item.id}`}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: 16, marginBottom: 24 }}
+          renderItem={({ item }) => (
+            <ProductCard {...item} cardWidth={160} />
+          )}
+        />
 
         <View style={styles.newArrivalsContainer}>
           <Image 
