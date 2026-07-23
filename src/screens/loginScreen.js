@@ -7,6 +7,8 @@ const loginScreen = () => {
     <View style={styles.container}>
       <Text style={styles.titletext}>Welcome {'\n'}Back!</Text>
     </View>
+        <View style={styles.mainContainer}>
+  
     <View style={styles.girisinput}>
         <Image
         source={
@@ -37,14 +39,17 @@ const loginScreen = () => {
             source={require('../../assets/eye.png')}
             />
         </TouchableOpacity>
+            </View>
     </View>
     <TouchableOpacity style={styles.sifreunuttum}>
         <Text style={styles.sifreunuttumtext}>Forgot Password?</Text>
     </TouchableOpacity>
+    <View style={styles.mainContainer}>
     <View style={styles.loginbuttoncont}>
         <TouchableOpacity style={styles.loginbutton}>
             <Text style={styles.loginbuttontext}> Login </Text>
         </TouchableOpacity>
+    </View>
     </View>
 
     <View >
@@ -77,16 +82,17 @@ export default loginScreen
 
 const styles = StyleSheet.create({
   titletext: {
-    fontSize: 36, // Ekrana daha iyi oturması için ideale çekildi
+    paddingHorizontal:18,
+    fontSize: 56,
     fontWeight: '700',
     color: '#000000',
-    lineHeight: 44,
-    letterSpacing: -1,
+    lineHeight: 60,
+    letterSpacing: -0.5,
   },
   container: {
     paddingHorizontal: 8,
-    paddingTop: 40,
-    paddingBottom: 20, // Tırnak kaldırıldı (sayısal yapıldı)
+    paddingTop: 100,
+    paddingBottom: 15,
   },
   picture: {
     width: 18,
@@ -96,14 +102,14 @@ const styles = StyleSheet.create({
   },
   girisinput: {
     flexDirection: 'row',
-    alignItems: 'center',        // İçerideki elemanları dikeyde ortalar
+    alignItems: 'center',
     backgroundColor: '#F3F3F3',  
-    height: 55,                  
+    height: 60,                  
     borderRadius: 10,            
     borderWidth: 1,              
     borderColor: '#A8A8A8',      
     paddingHorizontal: 16,       
-    marginBottom: 18,            
+    marginBottom: 30,            
   },
   input: {
     flex: 1,             
@@ -113,16 +119,18 @@ const styles = StyleSheet.create({
   },
   sifreunuttum: {
     alignSelf: 'flex-end', 
-    marginBottom: 28,      
+    marginBottom: 40,      
     paddingRight: 2,
   },
   sifreunuttumtext: {
     color: '#FD6E8A',      
     fontSize: 12,
     fontWeight: '500',
+    marginRight: 20,
+    marginTop: -20,
   },
   loginbuttoncont: {
-    marginBottom: 30, // Alt kısımla arayı açmak için
+    marginBottom: 10,
   },
   loginbutton: {
     backgroundColor: '#F83758',     
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 16,            // İkonların arasını eşit mesafeyle açar
+    gap: 16,
     marginTop: 5,
     marginBottom: 15,
   },
@@ -164,5 +172,9 @@ const styles = StyleSheet.create({
   fontSize: 12,
   marginTop: 15,
   marginBottom: 5,
-}
+},
+mainContainer: {
+    paddingHorizontal: 18,
+    paddingTop: 20,
+  },
 });

@@ -10,10 +10,13 @@ import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen'; 
 import WishlistScreen from './src/screens/Wishlist'; 
 import ProductDetailScreen from './src/screens/ProductDetailScreen';
+import SignUpScreen from './src/screens/SignUpScreen'; // ✅ ./src yapıldı
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import loginScreen from './src/screens/loginScreen';
 import Header from './src/navigation/Header';
 import TabBar from './src/navigation/TabBar';
 import { navigationRef } from './src/utils/index';
+
 
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
@@ -29,7 +32,6 @@ const HomeStackScreen = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Wishlist" component={WishlistScreen} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-        <Stack.Screen name="loginScreen" component={loginScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -74,8 +76,16 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <RootStack.Navigator screenOptions={{ headerShown: false }}>
+      
+      <RootStack.Navigator
+       initialRouteName="ForgotPasswordScreen"
+       screenOptions={{ headerShown: false}}>
+        <RootStack.Screen name="loginScreen" component={loginScreen} />
+        <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <RootStack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+
         {isFirstLaunch ? (
+          
           <>
             <RootStack.Screen name="GetStarted" component={GetStartedScreen} />
             <RootStack.Screen name="MainApp" component={MainTabNavigator} />
