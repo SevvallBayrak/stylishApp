@@ -1,9 +1,18 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const loginScreen = () => {
+const loginScreen = ({navigation}) => {
   return (
     <View>
+    <TouchableOpacity 
+            style={styles.backButton} 
+            onPress={() => navigation.goBack()}
+            >
+            <Image 
+                source={require('../../assets/Vector 3.png')}
+                style={styles.backIcon}
+            />
+    </TouchableOpacity>
     <View style={styles.container}>
       <Text style={styles.titletext}>Create an {'\n'}account</Text>
     </View>
@@ -91,7 +100,7 @@ const loginScreen = () => {
         </View>
         <View style={styles.container5}>
         <Text>I Already Have an Account</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('loginScreen')}>
             <Text style={styles.Signuptext}> Login </Text>
         </TouchableOpacity>
         </View>
@@ -115,7 +124,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 8,
-    paddingTop: 100,
+    paddingTop: 35,
     paddingBottom: 15,
   },
   picture: {
@@ -199,4 +208,8 @@ mainContainer: {
     paddingHorizontal: 18,
     paddingTop: 20,
   },
+  backButton:{
+    marginTop: 60,
+    marginLeft: 15,
+  }
 });

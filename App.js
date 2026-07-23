@@ -10,7 +10,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen'; 
 import WishlistScreen from './src/screens/Wishlist'; 
 import ProductDetailScreen from './src/screens/ProductDetailScreen';
-import SignUpScreen from './src/screens/SignUpScreen'; // ✅ ./src yapıldı
+import SignUpScreen from './src/screens/SignUpScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import loginScreen from './src/screens/loginScreen';
 import Header from './src/navigation/Header';
@@ -78,7 +78,7 @@ export default function App() {
     <NavigationContainer ref={navigationRef}>
       
       <RootStack.Navigator
-       initialRouteName="ForgotPasswordScreen"
+       initialRouteName="loginScreen"
        screenOptions={{ headerShown: false}}>
         <RootStack.Screen name="loginScreen" component={loginScreen} />
         <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />

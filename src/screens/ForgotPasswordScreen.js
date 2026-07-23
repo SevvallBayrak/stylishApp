@@ -1,9 +1,18 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const ForgotPasswordScreen = () => {
+const ForgotPasswordScreen = ({navigation}) => {
   return (
     <View style={styles.screenContainer}>
+        <TouchableOpacity 
+        style={styles.backButton} 
+        onPress={() => navigation.goBack()}
+      >
+        <Image 
+          source={require('../../assets/Vector 3.png')}
+          style={styles.backIcon}
+        />
+      </TouchableOpacity>
       
       <View style={styles.headerContainer}>
         <Text style={styles.titleText}>Forgot {'\n'}password?</Text>
@@ -111,4 +120,8 @@ const styles = StyleSheet.create({
     fontSize: 18,                   
     fontWeight: 'bold',             
   },
+  backButton:{
+    marginTop: 60,
+    marginLeft: 15,
+  }
 });

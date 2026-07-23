@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const loginScreen = () => {
+const loginScreen = ({navigation}) => {
   return (
     <View>
     <View style={styles.container}>
@@ -41,15 +41,19 @@ const loginScreen = () => {
         </TouchableOpacity>
             </View>
     </View>
-    <TouchableOpacity style={styles.sifreunuttum}>
-        <Text style={styles.sifreunuttumtext}>Forgot Password?</Text>
+    <TouchableOpacity 
+      style={styles.sifreunuttum}
+      onPress={() => navigation.navigate('ForgotPasswordScreen')}
+    >
+      <Text style={styles.sifreunuttumtext}>Forgot Password?</Text>
     </TouchableOpacity>
+
     <View style={styles.mainContainer}>
-    <View style={styles.loginbuttoncont}>
+      <View style={styles.loginbuttoncont}>
         <TouchableOpacity style={styles.loginbutton}>
-            <Text style={styles.loginbuttontext}> Login </Text>
+          <Text style={styles.loginbuttontext}> Login </Text>
         </TouchableOpacity>
-    </View>
+      </View>
     </View>
 
     <View >
@@ -67,8 +71,8 @@ const loginScreen = () => {
         </View>
         <View style={styles.container5}>
         <Text>Create An Account</Text>
-        <TouchableOpacity>
-            <Text style={styles.Signuptext}> Sign up </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+        <Text style={styles.Signuptext}>Sign up</Text>
         </TouchableOpacity>
         </View>
     </View>
