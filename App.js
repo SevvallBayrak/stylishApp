@@ -17,7 +17,6 @@ import Header from './src/navigation/Header';
 import TabBar from './src/navigation/TabBar';
 import { navigationRef } from './src/utils/index';
 
-
 const RootStack = createStackNavigator();
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,7 +24,7 @@ const Tab = createBottomTabNavigator();
 const HomeStackScreen = () => {
   return (
     <Stack.Navigator 
-      initialRouteName="loginScreen"
+      initialRouteName="Home"
       screenOptions={{ header: () => <Header /> }}
     >
       <Stack.Group screenOptions={{ animation: 'fade' }}>
@@ -46,12 +45,17 @@ const MainTabNavigator = () => {
 };
 
 export default function App() {
-
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  const [userToken, setUserToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkFirstLaunch = async () => {
+    const checkInitialState = async () => {
       try {
+        const token = await AsyncStorage.getItem('userToken');
+        if (token) {
+          setUserToken(token);
+        }
         const hasLaunched = await AsyncStorage.getItem('hasLaunched');
         if (hasLaunched === 'true') {
           setIsFirstLaunch(false);
@@ -59,14 +63,17 @@ export default function App() {
           setIsFirstLaunch(true);
         }
       } catch (error) {
+        console.error('Başlangıç kontrol hatası:', error);
         setIsFirstLaunch(false);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    checkFirstLaunch();
+    checkInitialState();
   }, []);
 
-  if (isFirstLaunch === null) {
+  if (isLoading || isFirstLaunch === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <ActivityIndicator size="large" color="#FD6E8A" />
@@ -76,25 +83,15 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      
       <RootStack.Navigator
-       initialRouteName="loginScreen"
-       screenOptions={{ headerShown: false}}>
+        initialRouteName={userToken ? "MainApp" : "loginScreen"}
+        screenOptions={{ headerShown: false }}
+      >
         <RootStack.Screen name="loginScreen" component={loginScreen} />
         <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
         <RootStack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
-
-        {isFirstLaunch ? (
-          
-          <>
-            <RootStack.Screen name="GetStarted" component={GetStartedScreen} />
-            <RootStack.Screen name="MainApp" component={MainTabNavigator} />
-          </>
-        ) : (
-          <>
-            <RootStack.Screen name="MainApp" component={MainTabNavigator} />
-          </>
-        )}
+        <RootStack.Screen name="MainApp" component={MainTabNavigator} />
+        <RootStack.Screen name="GetStarted" component={GetStartedScreen} />
         <RootStack.Screen name="Profile" component={ProfileScreen} />
       </RootStack.Navigator>
     </NavigationContainer>

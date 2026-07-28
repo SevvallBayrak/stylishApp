@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import {
   View,
@@ -9,7 +10,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 
 const ProfileScreen = ({ navigation }) => {
@@ -23,6 +25,29 @@ const ProfileScreen = ({ navigation }) => {
   const [bankAccountNumber, setBankAccountNumber] = useState('204356XXXXXXXX');
   const [accountHolderName, setAccountHolderName] = useState('Abhiraj Sisodiya');
   const [ifscCode, setIfscCode] = useState('SBIN00428');
+
+  const handleLogout = async () => {
+    Alert.alert(
+      'Çıkış Yap',
+      'Hesabınızdan çıkış yapmak istediğinize emin misiniz?',
+      [
+        { text: 'İptal', style: 'cancel' },
+        {
+          text: 'Çıkış Yap',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem('userToken');
+              navigation.replace('loginScreen');
+            } catch (error) {
+              console.error('Çıkış yapılırken hata oluştu:', error);
+              Alert.alert('Hata', 'Çıkış yapılırken bir sorun oluştu.');
+            }
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -151,6 +176,14 @@ const ProfileScreen = ({ navigation }) => {
 
           <TouchableOpacity style={styles.saveButton} activeOpacity={0.9}>
             <Text style={styles.saveButtonText}>Save</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.logoutButton} 
+            activeOpacity={0.8}
+            onPress={handleLogout}
+          >
+            <Text style={styles.logoutButtonText}>Log Out</Text>
           </TouchableOpacity>
 
         </ScrollView>
@@ -306,6 +339,21 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    backgroundColor: '#FFF',
+    height: 48,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: '#FD6E8A',
+  },
+  logoutButtonText: {
+    color: '#FD6E8A',
     fontSize: 16,
     fontWeight: 'bold',
   },

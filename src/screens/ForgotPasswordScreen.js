@@ -1,10 +1,57 @@
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  Image, 
+  TextInput, 
+  TouchableOpacity, 
+  Alert, 
+  ActivityIndicator 
+} from 'react-native';
+import { ENDPOINTS } from '../config/api';
 
-const ForgotPasswordScreen = ({navigation}) => {
+const ForgotPasswordScreen = ({ navigation }) => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      Alert.alert('Hata', 'Lütfen e-posta adresinizi girin.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(ENDPOINTS.FORGOT_PASSWORD, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert('Başarılı 📩', data.message, [
+          { text: 'Giriş Yap', onPress: () => navigation.navigate('loginScreen') }
+        ]);
+      } else {
+        Alert.alert('Hata', data.message || 'Bir hata oluştu.');
+      }
+    } catch (error) {
+      console.error('Şifre sıfırlama hatası:', error);
+      Alert.alert('Bağlantı Hatası', 'Sunucuya ulaşılamadı. Lütfen ağınızı kontrol edin.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <View style={styles.screenContainer}>
-        <TouchableOpacity 
+      <TouchableOpacity 
         style={styles.backButton} 
         onPress={() => navigation.goBack()}
       >
@@ -31,6 +78,8 @@ const ForgotPasswordScreen = ({navigation}) => {
             placeholderTextColor="#A0A0A0"
             autoCapitalize="none"
             keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
@@ -41,18 +90,24 @@ const ForgotPasswordScreen = ({navigation}) => {
         </View>
 
         <View style={styles.buttonCont}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Submit</Text>
+          <TouchableOpacity 
+            style={styles.button} 
+            onPress={handleForgotPassword}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text style={styles.buttonText}>Submit</Text>
+            )}
           </TouchableOpacity>
         </View>
-
       </View>
-
     </View>
-  )
-}
+  );
+};
 
-export default ForgotPasswordScreen
+export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {
